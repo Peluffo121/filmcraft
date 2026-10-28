@@ -1,6 +1,6 @@
 use winit::platform::android::activity::AndroidApp;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn android_main(app: AndroidApp) {
     android_logger::init_once(
         android_logger::Config::default().with_max_level(log::LevelFilter::Info),
@@ -13,13 +13,9 @@ fn android_main(app: AndroidApp) {
     let _ = eframe::run_native(
         "FilmCraft",
         native_options,
-        Box::new(|cc| {
-            let mut style = (*cc.egui_ctx.style()).clone();
-            style.spacing.interact_size = egui::vec2(48.0, 48.0);
-            style.spacing.item_spacing = egui::vec2(10.0, 10.0);
-            cc.egui_ctx.set_style(style);
-
-            Ok(Box::new(filmcraft_ui_egui::FilmcraftApp::new(cc)))
+        Box::new(|_cc| {
+            let session = filmcraft_engine::Session::default();
+            Ok(Box::new(filmcraft_ui_egui::FilmcraftApp::new(session)))
         }),
     );
 }
