@@ -10,9 +10,11 @@ name = "filmcraft_android"
 [package.metadata.android]
 package = "com.artcraft.filmcraft"
 apk_name = "FilmCraft"
+build_targets = ["aarch64-linux-android"]
+
+[package.metadata.android.sdk]
 min_sdk_version = 26
 target_sdk_version = 34
-build_targets = ["aarch64-linux-android"]
 
 [dependencies]
 filmcraft-engine = { path = "../../crates/engine" }
