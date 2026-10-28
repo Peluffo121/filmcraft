@@ -19,7 +19,7 @@ fn android_main(app: AndroidApp) {
             style.spacing.item_spacing = egui::vec2(10.0, 10.0);
             cc.egui_ctx.set_style(style);
 
-            Ok(Box::new(filmcraft_ui_egui::FilmCraftApp::new(cc)))
+            Ok(Box::new(filmcraft_ui_egui::FilmcraftApp::new(cc)))
         }),
     );
 }
