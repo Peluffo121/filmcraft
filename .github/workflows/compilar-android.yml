@@ -1,7 +1,7 @@
 name: Compilar FilmCraft para Android
 
 on:
-  workflow_dispatch: # Permite apretar un botón en GitHub para compilar cuando quieras
+  workflow_dispatch:
   push:
     branches: [ main ]
 
@@ -19,7 +19,7 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      - name: Configurar Java y Android SDK / NDK
+      - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -27,14 +27,18 @@ jobs:
 
       - name: Instalar Android NDK
         uses: nttld/setup-ndk@v1
+        id: setup-ndk
         with:
           ndk-version: r26b
           add-to-path: true
 
       - name: Instalar herramienta de empaquetado (cargo-apk)
-        run: cargo install cargo-apk
+        run: cargo install cargo-apk --locked
 
       - name: Compilar APK de FilmCraft
+        env:
+          ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           cargo apk build --release --package filmcraft-android --target aarch64-linux-android
 
