@@ -20,6 +20,6 @@ target_sdk_version = 34
 filmcraft-engine = { workspace = true }
 filmcraft-ui-egui = { workspace = true }
 eframe = { workspace = true, default-features = false, features = ["wgpu", "android-native-activity"] }
-winit = { workspace = true, features = ["android-native-activity"] }
+winit = { version = "0.30", default-features = false, features = ["android-native-activity"] }
 android_logger = "0.14"
 log = { workspace = true }
