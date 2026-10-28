@@ -1,0 +1,24 @@
+[package]
+name = "filmcraft-android"
+version = "0.13.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+name = "filmcraft_android"
+
+[package.metadata.android]
+package = "com.artcraft.filmcraft"
+apk_name = "FilmCraft"
+min_sdk_version = 26
+target_sdk_version = 34
+icon = "@mipmap/ic_launcher"
+build_targets = ["aarch64-linux-android"]
+
+[dependencies]
+filmcraft-engine = { path = "../../crates/engine" }
+filmcraft-ui-egui = { path = "../../crates/ui-egui" }
+filmcraft-format = { path = "../../crates/format" }
+eframe = { version = "0.30", default-features = false, features = ["wgpu", "android-native-activity"] }
+android_logger = "0.14"
+log = "0.4"
