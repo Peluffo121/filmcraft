@@ -1,0 +1,45 @@
+name: Compilar FilmCraft para Android
+
+on:
+  workflow_dispatch: # Permite apretar un botón en GitHub para compilar cuando quieras
+  push:
+    branches: [ main ]
+
+jobs:
+  build-apk:
+    name: Compilar APK (ARM64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código fuente
+        uses: actions/checkout@v4
+
+      - name: Instalar Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Configurar Java y Android SDK / NDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Instalar Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26b
+          add-to-path: true
+
+      - name: Instalar herramienta de empaquetado (cargo-apk)
+        run: cargo install cargo-apk
+
+      - name: Compilar APK de FilmCraft
+        run: |
+          cargo apk build --release --package filmcraft-android --target aarch64-linux-android
+
+      - name: Subir el instalador APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: FilmCraft-Android-APK
+          path: target/release/apk/*.apk
